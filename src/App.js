@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
-import { ListsArtits } from './components/ListsArtists';
+import { ListArtits } from './components/ListArtists';
 
 function App() {
 
@@ -46,38 +46,38 @@ function App() {
             type: "artist"
         }
     })
-    console.log(data)
+    console.log(data.artists.items)
     setArtists(data.artists.items)
   }
 
-  const renderArtists = () => {
-    return artists.map(artist => (
-        <div key={artist.id}>
-            {artist.images.length ? <img width={"100%"} src={artist.images[0].url} alt=""/> : <div>No Image</div>}
-            {artist.name} genero: 
-            {artist.genres[0]}
-        </div>
-    ))
-  }
+ 
   
   return (
-    <div className="App">      
-        <h2>Spotify React</h2>
+    <div className="container">      
+      <h2 className="App">Spotify React</h2>
+
         {!token ?        
           <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a>
-          : <button onClick={logout}>Logout</button>}
+          : <button type="button" className="btn btn-secondary me-0" onClick={logout}>Logout</button>}
 
         {token ? 
           <form onSubmit={searchArtists}>
             <input type="text" onChange={e => setSearchKey(e.target.value)}/>
-            <button type={"submit"}>Search</button>
+            <button className="btn btn-secondary" type={"submit"}>Search</button>
           </form> 
           : <h2>Please login</h2>
-        }  
-        <ListsArtits/>
-        {renderArtists()}
-
-     
+        }
+      <section className="row row-cols-sm-2 row-cols-md-4">
+        {artists.map(({id, images, name})=>  
+          <ListArtits
+            key={id}
+            images={images}          
+            nameArtist={name}
+          />
+          )
+        }
+      </section>
+        
     </div>
   );
 }
