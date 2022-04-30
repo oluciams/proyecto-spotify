@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
+import { ListsArtits } from './components/ListsArtists';
 
 function App() {
 
@@ -45,6 +46,7 @@ function App() {
             type: "artist"
         }
     })
+    console.log(data)
     setArtists(data.artists.items)
   }
 
@@ -52,15 +54,15 @@ function App() {
     return artists.map(artist => (
         <div key={artist.id}>
             {artist.images.length ? <img width={"100%"} src={artist.images[0].url} alt=""/> : <div>No Image</div>}
-            {artist.name}
+            {artist.name} genero: 
+            {artist.genres[0]}
         </div>
     ))
   }
   
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Spotify React</h1>
+    <div className="App">      
+        <h2>Spotify React</h2>
         {!token ?        
           <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a>
           : <button onClick={logout}>Logout</button>}
@@ -72,10 +74,10 @@ function App() {
           </form> 
           : <h2>Please login</h2>
         }  
-
+        <ListsArtits/>
         {renderArtists()}
 
-      </header>
+     
     </div>
   );
 }
