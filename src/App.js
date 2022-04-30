@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
 import { ListArtits } from './components/ListArtists';
+import { Header } from './components/Header';
 
 function App() {
 
@@ -48,37 +49,43 @@ function App() {
     })
     console.log(data.artists.items)
     setArtists(data.artists.items)
-  }
-
- 
+  } 
   
   return (
-    <div className="container">      
-      <h2 className="App">Spotify React</h2>
+    <>
+      <Header
+      token={token}
+      AUTH_ENDPOINT={AUTH_ENDPOINT}
+      CLIENT_ID={CLIENT_ID}
+      REDIRECT_URI={REDIRECT_URI}
+      RESPONSE_TYPE={RESPONSE_TYPE}
+      logout={logout}
+      />      
+          
+      <div className="container">
 
-        {!token ?        
-          <a href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}>Login to Spotify</a>
-          : <button type="button" className="btn btn-secondary me-0" onClick={logout}>Logout</button>}
-
-        {token ? 
-          <form onSubmit={searchArtists}>
-            <input type="text" onChange={e => setSearchKey(e.target.value)}/>
-            <button className="btn btn-secondary" type={"submit"}>Search</button>
-          </form> 
-          : <h2>Please login</h2>
-        }
-      <section className="row row-cols-sm-2 row-cols-md-4">
-        {artists.map(({id, images, name})=>  
-          <ListArtits
-            key={id}
-            images={images}          
-            nameArtist={name}
-          />
-          )
-        }
-      </section>
+        <section className="col-4 mt-3">                
+          <form class="d-flex" onSubmit={searchArtists}>
+            <input class="form-control me-2" type="search" onChange={e => setSearchKey(e.target.value)} placeholder="Search" aria-label="Search"/>
+            <button class="btn btn-outline-secondary" type="submit">Search</button>
+          </form>  
+        </section> 
         
-    </div>
+        <h2 className="App">Your Results</h2> 
+        
+        <section className="row row-cols-sm-2 row-cols-md-4">
+          {artists.map(({id, images, name})=>  
+            <ListArtits
+              key={id}
+              images={images}          
+              nameArtist={name}
+            />
+            )
+          }
+        </section>
+
+      </div>     
+    </>
   );
 }
 export default App;
