@@ -3,6 +3,8 @@ import axios from 'axios';
 import './App.css';
 import { ListArtits } from './components/ListArtists';
 import { Header } from './components/Header';
+import { Link } from 'react-router-dom';
+
 
 function App() {
 
@@ -113,6 +115,7 @@ function App() {
             />
             )
           }
+          <Link></Link>
         </section>
 
         <footer className="mt-3 mb-3">

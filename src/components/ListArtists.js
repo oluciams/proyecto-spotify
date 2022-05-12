@@ -6,7 +6,7 @@ export const ListArtits = ({images, nameArtist, followers, searchAlbums, albums}
   return( 
     <div className="mt-3 mx-auto">
       <div className="card h-100" style={{width: "18rem"}}>
-        {images.length ? <img src={images[0].url} className="h-100 w-100" alt="artist"/> : <img className="h-100 w-100" alt="No Image"/>}     
+        {images.length ? <img src={images[0].url} className="h-100 w-100" alt="artist"/> : <img className="h-100 w-100" alt="No Artist"/>}     
         <div className="card-body">
           <h5 className="card-title">{nameArtist}</h5>
           <p>Followers: {followers.total}</p>           
