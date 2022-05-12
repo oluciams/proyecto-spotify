@@ -15,6 +15,9 @@ function App() {
 
   const [searchKey, setSearchKey] = useState("")
   const [artists, setArtists] = useState([])
+  const [albums, setAlbums] = useState([]);
+
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     const hash = window.location.hash
@@ -47,9 +50,33 @@ function App() {
             type: "artist"
         }
     })
-    console.log(data.artists.items)
+    console.log(data.artists.items)  
     setArtists(data.artists.items)
   } 
+
+  const searchAlbums = async () => {    
+    const {data} = await axios.get("https://api.spotify.com/v1/artists/1JbemQ1fPt2YmSLjAFhPBv/albums", {
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+        params: {
+            q: searchKey,
+            include_groups:"album"    
+        }
+    })
+   
+    console.log(data.items)
+    setAlbums(data.items)
+  } 
+
+  const onChangePage = (next) =>{
+   
+    if(!artists.previus && page + next <= 0) return;
+    if(!artists.next && page + next >= 3) return; 
+
+    setPage(page + next);
+  }
+
   
   return (
     <>
@@ -65,25 +92,33 @@ function App() {
       <div className="container">
 
         <section className="col-4 mt-3">                
-          <form class="d-flex" onSubmit={searchArtists}>
-            <input class="form-control me-2" type="search" onChange={e => setSearchKey(e.target.value)} placeholder="Search" aria-label="Search"/>
-            <button class="btn btn-outline-secondary" type="submit">Search</button>
+          <form className="d-flex" onSubmit={searchArtists}>         
+            <input className="form-control me-2" type="search" onChange={e => setSearchKey(e.target.value)} placeholder="Search" aria-label="Search"/>
+            <button className="btn btn-outline-secondary" type="submit">Search</button>
           </form>  
         </section> 
 
         <h2 className="App">Your Results</h2> 
         
         <section className="row justify-content-sm center row-cols-auto">
-          {artists.map(({id, images, name})=>  
+          {artists.map(({id, images, name, followers})=>  
             <ListArtits
               key={id}
+              id={id}
               images={images}          
               nameArtist={name}
+              followers={followers}
+              searchAlbums={searchAlbums}
+              albums={albums}   
             />
             )
           }
         </section>
 
+        <footer className="mt-3 mb-3">
+          <button type="button" className="btn btn-secondary btn-lg me-3" onClick={()=> onChangePage(-1)}>Prev</button>  | {page}  |  
+          <button type="button" className="btn btn-secondary btn-lg ms-3" onClick={()=> onChangePage(1)}>Next</button>
+        </footer>      
       </div>     
     </>
   );

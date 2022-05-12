@@ -1,32 +1,28 @@
 import React from 'react';
+import { DetailArtist } from './DetailArtist';
 
-export const ListArtits = ({images, nameArtist})=>{
+export const ListArtits = ({images, nameArtist, followers, searchAlbums, albums})=>{
+
   return( 
     <div className="mt-3 mx-auto">
       <div className="card h-100" style={{width: "18rem"}}>
         {images.length ? <img src={images[0].url} className="h-100 w-100" alt="artist"/> : <img className="h-100 w-100" alt="No Image"/>}     
         <div className="card-body">
-          <h5 className="card-title">{nameArtist}</h5>        
-          {/* <button className="btn btn-primary">Details</button> */}         
-          <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Details
-          <div className="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title" id="staticBackdropLabel">artist</h5>
-                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div className="modal-body">              
-                </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>                
-                </div>
-              </div>
-            </div>
-          </div>          
-          </button>
-        
+          <h5 className="card-title">{nameArtist}</h5>
+          <p>Followers: {followers.total}</p>           
+          <button type="button" className="btn btn-info" onClick={searchAlbums} data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            Albums</button>
+            {albums.map(({id, images, name, external_urls})=>
+              <DetailArtist
+                key={id}
+                id={id}
+                nameArtist={nameArtist}
+                images={images}
+                nameAlbum={name}
+                url={external_urls}               
+              />      
+              )
+            }
         </div>
       </div>   
     </div>        
