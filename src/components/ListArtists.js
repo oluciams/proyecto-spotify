@@ -5,7 +5,9 @@ import { ArtistsContext } from '../context/ArtistsContext';
 
 export const ListArtists = ({images, nameArtist, followers})=>{
 
-  const {searchAlbums} = useContext(ArtistsContext)
+  const {artists, searchAlbums} = useContext(ArtistsContext)
+
+  if(!artists) return <h3 className="App">Loading . . .  </h3>
 
   return( 
     <div className="mt-3 mx-auto">

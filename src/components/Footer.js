@@ -4,6 +4,7 @@ import { ArtistsContext } from '../context/ArtistsContext';
 export const Footer = ()=> {
 
   const {onChangePage, page} = useContext(ArtistsContext)
+  
   return(
 
     <footer className="container mt-3 mb-3">

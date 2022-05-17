@@ -19,7 +19,7 @@ export const Albums = ()=>{
                 <div className="card-body">
                   <h5 className="card-title">Album: {name}</h5>
                   <p>Artista: {artists[0].name}</p>
-                  <a href={href} className="btn btn-primary">Go albums</a>            
+                  <a href={href} className="btn btn-info">Go albums</a>            
                 </div>
               </div>   
             </div> 
