@@ -5,7 +5,7 @@ import { ArtistsContext } from '../context/ArtistsContext';
 
 export const ListArtists = ({images, nameArtist, followers})=>{
 
-  const {albums, searchAlbums} = useContext(ArtistsContext)
+  const {searchAlbums} = useContext(ArtistsContext)
 
   return( 
     <div className="mt-3 mx-auto">
@@ -14,20 +14,7 @@ export const ListArtists = ({images, nameArtist, followers})=>{
         <div className="card-body">
           <h5 className="card-title">{nameArtist}</h5>
           <p>Followers: {followers.total}</p> 
-          <Link to="/albums" type="button" className="btn btn-info" onClick={searchAlbums}>albums</Link>          
-          {/* <button type="button" className="btn btn-info" onClick={searchAlbums}>
-            Albums</button> */}
-            {/* {albums.map(({id, images, name, href})=>
-              <Albums
-                key={id}
-                id={id}
-                nameArtist={nameArtist}
-                images={images}
-                nameAlbum={name}
-                url={href}               
-              />      
-              )
-            }  */}
+          <Link to="/albums" type="button" className="btn btn-info" onClick={searchAlbums}>albums</Link>
         </div>
       </div>   
     </div>        

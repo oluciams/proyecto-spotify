@@ -26,9 +26,8 @@ export const Search = ()=>{
               followers={followers}    
             />
             )
-          }
-          
-        </section>    
+          }          
+      </section>    
     </div>
   )
 }

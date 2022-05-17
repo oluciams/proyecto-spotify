@@ -67,6 +67,15 @@ export const ArtistsContextProvider = ({children})=>{
     setAlbums(data.items)
   } 
 
+  // const onChangePage = (next) =>{
+   
+  //   if(!artists.previus && page + next <= 0) return;
+  //   if(!artists.next && page + next >= 3) return; 
+
+  //   setPage(page + next);
+  // }
+
+
   const value ={
     CLIENT_ID,
     REDIRECT_URI,
