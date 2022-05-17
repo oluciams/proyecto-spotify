@@ -1,88 +1,101 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
 import './App.css';
-import { ListArtits } from './components/ListArtists';
-import { Header } from './components/Header';
-import { Link } from 'react-router-dom';
+import { ArtistsContextProvider } from './context/ArtistsContext';
+import {Route, Link, Routes} from 'react-router-dom';
+import { Header} from './components/Header';
+import { Search } from './components/Search';
+import { Albums } from './components/Albums';
 
 
-function App() {
 
-  const CLIENT_ID = "0abb21aa877949ef8016f59d0216a16d"
-  const REDIRECT_URI = "http://localhost:3000"
-  const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
-  const RESPONSE_TYPE = "token"
+export const App = () => {
 
-  const [token, setToken] = useState('');
+  // const CLIENT_ID = "0abb21aa877949ef8016f59d0216a16d"
+  // const REDIRECT_URI = "http://localhost:3000"
+  // const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize"
+  // const RESPONSE_TYPE = "token"
 
-  const [searchKey, setSearchKey] = useState("")
-  const [artists, setArtists] = useState([])
-  const [albums, setAlbums] = useState([]);
+  // const [token, setToken] = useState('');
 
-  const [page, setPage] = useState(1);
+  // const [searchKey, setSearchKey] = useState("")
+  //const [artists, setArtists] = useState([])
+  //const [albums, setAlbums] = useState([]);
 
-  useEffect(() => {
-    const hash = window.location.hash
-    let token = window.localStorage.getItem("token")
+  //const [page, setPage] = useState(1);
 
-    if (!token && hash) {
-        token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1]
+  // useEffect(() => {
+  //   const hash = window.location.hash
+  //   let token = window.localStorage.getItem("token")
 
-        window.location.hash = ""
-        window.localStorage.setItem("token", token)
-    }
+  //   if (!token && hash) {
+  //       token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1]
 
-    setToken(token)
+  //       window.location.hash = ""
+  //       window.localStorage.setItem("token", token)
+  //   }
+
+  //   setToken(token)
     
-  }, []);
+  // }, []);
 
-  const logout = () => {
-    setToken("")
-    window.localStorage.removeItem("token")
-  }
+  // const logout = () => {
+  //   setToken("")
+  //   window.localStorage.removeItem("token")
+  // }
 
-  const searchArtists = async (e) => {
-    e.preventDefault()
-    const {data} = await axios.get("https://api.spotify.com/v1/search", {
-        headers: {
-            Authorization: `Bearer ${token}`
-        },
-        params: {
-            q: searchKey,
-            type: "artist"
-        }
-    })
-    console.log(data.artists.items)  
-    setArtists(data.artists.items)
-  } 
+  // const searchArtists = async (e) => {
+  //   e.preventDefault()
+  //   const {data} = await axios.get("https://api.spotify.com/v1/search", {
+  //       headers: {
+  //           Authorization: `Bearer ${token}`
+  //       },
+  //       params: {
+  //           q: searchKey,
+  //           type: "artist"
+  //       }
+  //   })
+  //   console.log(data.artists.items)  
+  //   setArtists(data.artists.items)
+  // } 
 
-  const searchAlbums = async () => {    
-    const {data} = await axios.get("https://api.spotify.com/v1/artists/1JbemQ1fPt2YmSLjAFhPBv/albums", {
-        headers: {
-            Authorization: `Bearer ${token}`
-        },
-        params: {
-            q: searchKey,
-            include_groups:"album"    
-        }
-    })
+
+  
+  // const searchAlbums = async () => {    
+  //   const {data} = await axios.get("https://api.spotify.com/v1/artists/1JbemQ1fPt2YmSLjAFhPBv/albums", {
+  //       headers: {
+  //           Authorization: `Bearer ${token}`
+  //       },
+  //       params: {
+  //           q: searchKey,
+  //           include_groups:"album"    
+  //       }
+  //   })
    
-    console.log(data.items)
-    setAlbums(data.items)
-  } 
+  //   console.log(data.items)
+  //   setAlbums(data.items)
+  // } 
 
-  const onChangePage = (next) =>{
+  // const onChangePage = (next) =>{
    
-    if(!artists.previus && page + next <= 0) return;
-    if(!artists.next && page + next >= 3) return; 
+  //   if(!artists.previus && page + next <= 0) return;
+  //   if(!artists.next && page + next >= 3) return; 
 
-    setPage(page + next);
-  }
+  //   setPage(page + next);
+  // }
 
   
   return (
     <>
-      <Header
+    <ArtistsContextProvider>
+      <Header/>
+    <Routes> 
+      <Route path="/" element={<Search/>}/>     
+        <Route path="albums" element={<Albums/>}/>         
+      </Routes>     
+    </ArtistsContextProvider>
+
+
+      {/* <Header
       token={token}
       AUTH_ENDPOINT={AUTH_ENDPOINT}
       CLIENT_ID={CLIENT_ID}
@@ -115,15 +128,15 @@ function App() {
             />
             )
           }
-          <Link></Link>
+          
         </section>
 
         <footer className="mt-3 mb-3">
           <button type="button" className="btn btn-secondary btn-lg me-3" onClick={()=> onChangePage(-1)}>Prev</button>  | {page}  |  
           <button type="button" className="btn btn-secondary btn-lg ms-3" onClick={()=> onChangePage(1)}>Next</button>
         </footer>      
-      </div>     
+      </div>      */}
     </>
   );
 }
-export default App;
+

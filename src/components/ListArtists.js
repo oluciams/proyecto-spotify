@@ -1,7 +1,11 @@
-import React from 'react';
-import { DetailArtist } from './DetailArtist';
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { ArtistsContext } from '../context/ArtistsContext';
 
-export const ListArtits = ({images, nameArtist, followers, searchAlbums, albums})=>{
+
+export const ListArtists = ({images, nameArtist, followers})=>{
+
+  const {albums, searchAlbums} = useContext(ArtistsContext)
 
   return( 
     <div className="mt-3 mx-auto">
@@ -9,20 +13,21 @@ export const ListArtits = ({images, nameArtist, followers, searchAlbums, albums}
         {images.length ? <img src={images[0].url} className="h-100 w-100" alt="artist"/> : <img className="h-100 w-100" alt="No Artist"/>}     
         <div className="card-body">
           <h5 className="card-title">{nameArtist}</h5>
-          <p>Followers: {followers.total}</p>           
-          <button type="button" className="btn btn-info" onClick={searchAlbums} data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Albums</button>
-            {albums.map(({id, images, name, external_urls})=>
-              <DetailArtist
+          <p>Followers: {followers.total}</p> 
+          <Link to="/albums" type="button" className="btn btn-info" onClick={searchAlbums}>albums</Link>          
+          {/* <button type="button" className="btn btn-info" onClick={searchAlbums}>
+            Albums</button> */}
+            {/* {albums.map(({id, images, name, href})=>
+              <Albums
                 key={id}
                 id={id}
                 nameArtist={nameArtist}
                 images={images}
                 nameAlbum={name}
-                url={external_urls}               
+                url={href}               
               />      
               )
-            }
+            }  */}
         </div>
       </div>   
     </div>        

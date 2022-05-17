@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ArtistsContext } from '../context/ArtistsContext';
 
-export const Header = ({token, AUTH_ENDPOINT, CLIENT_ID, REDIRECT_URI, RESPONSE_TYPE, logout})=>{
+
+export const Header = ()=>{
+
+  const {token, AUTH_ENDPOINT, CLIENT_ID, REDIRECT_URI, RESPONSE_TYPE, logout} = useContext(ArtistsContext)  
+
   return(
     <nav className="navbar navbar-light bg-light">
       <div className="container-fluid">
