@@ -5,8 +5,7 @@ import {Route, Routes} from 'react-router-dom';
 import { Header} from './components/Header';
 import { Search } from './components/Search';
 import { Albums } from './components/Albums';
-
-
+import { Footer } from './components/Footer';
 
 export const App = () => { 
   
@@ -17,7 +16,8 @@ export const App = () => {
       <Routes> 
         <Route path="/" element={<Search/>}/>     
         <Route path="albums" element={<Albums/>}/>         
-      </Routes>     
+      </Routes>
+      <Footer/>    
     </ArtistsContextProvider>     
     
   );

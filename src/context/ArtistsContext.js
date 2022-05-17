@@ -16,6 +16,8 @@ export const ArtistsContextProvider = ({children})=>{
   const [artists, setArtists] = useState([])
   const [albums, setAlbums] = useState([]);
 
+  const [page, setPage] = useState(1);
+
 
   useEffect(() => {
     const hash = window.location.hash
@@ -67,13 +69,13 @@ export const ArtistsContextProvider = ({children})=>{
     setAlbums(data.items)
   } 
 
-  // const onChangePage = (next) =>{
+  const onChangePage = (next) =>{
    
-  //   if(!artists.previus && page + next <= 0) return;
-  //   if(!artists.next && page + next >= 3) return; 
+    if(!artists.previus && page + next <= 0) return;
+    if(!artists.next && page + next >= 10) return; 
 
-  //   setPage(page + next);
-  // }
+    setPage(page + next);
+  }
 
 
   const value ={
@@ -86,9 +88,12 @@ export const ArtistsContextProvider = ({children})=>{
     setSearchKey,
     albums,
     artists,
+    page,
     logout, 
     searchArtists,
-    searchAlbums}
+    searchAlbums,
+    onChangePage
+  }
 
   return(
     <ArtistsContext.Provider value={value}>

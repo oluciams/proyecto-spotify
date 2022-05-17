@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ArtistsContext } from '../context/ArtistsContext';
 
 export const Footer = ()=> {
+
+  const {onChangePage, page} = useContext(ArtistsContext)
   return(
 
-    <footer className="mt-3 mb-3">
+    <footer className="container mt-3 mb-3">
       <button type="button" className="btn btn-secondary btn-lg me-3" onClick={()=> onChangePage(-1)}>Prev</button>  | {page}  |  
       <button type="button" className="btn btn-secondary btn-lg ms-3" onClick={()=> onChangePage(1)}>Next</button>
     </footer> 
