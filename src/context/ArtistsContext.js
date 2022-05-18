@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from 'react';
 import axios from 'axios';
 
+
 export const ArtistsContext = createContext();
 
 export const ArtistsContextProvider = ({children})=>{
@@ -17,7 +18,6 @@ export const ArtistsContextProvider = ({children})=>{
   const [albums, setAlbums] = useState([]);
 
   const [page, setPage] = useState(1);
-
 
   useEffect(() => {
     const hash = window.location.hash
@@ -49,13 +49,15 @@ export const ArtistsContextProvider = ({children})=>{
               q: searchKey,
               type: "artist"
           }
-      })
-      console.log(data.artists.items)  
-      setArtists(data.artists.items)
+      })     
+      console.log(data.artists.items)
+      setArtists(data.artists.items)   
+    
     } 
 
-  const searchAlbums = async () => {    
-    const {data} = await axios.get("https://api.spotify.com/v1/artists/1JbemQ1fPt2YmSLjAFhPBv/albums", {
+  const searchAlbums = async (id) => {   
+
+    const {data} = await axios.get(`https://api.spotify.com/v1/artists/${id}/albums`, {
         headers: {
             Authorization: `Bearer ${token}`
         },
@@ -66,7 +68,7 @@ export const ArtistsContextProvider = ({children})=>{
     })
    
     console.log(data.items)
-    setAlbums(data.items)
+    setAlbums(data.items)      
   } 
 
   const onChangePage = (next) =>{

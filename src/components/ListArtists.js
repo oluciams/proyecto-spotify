@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArtistsContext } from '../context/ArtistsContext';
 
 
-export const ListArtists = ({images, nameArtist, followers})=>{
+export const ListArtists = ({id, images, nameArtist, followers})=>{
 
   const {artists, searchAlbums} = useContext(ArtistsContext)
 
@@ -15,8 +15,8 @@ export const ListArtists = ({images, nameArtist, followers})=>{
         {images.length ? <img src={images[0].url} className="h-100 w-100" alt="artist"/> : <img className="h-100 w-100" alt="No Artist"/>}     
         <div className="card-body">
           <h5 className="card-title">{nameArtist}</h5>
-          <p>Followers: {followers.total}</p> 
-          <Link to="/albums" type="button" className="btn btn-info" onClick={searchAlbums}>albums</Link>
+          <p>Followers: {followers.total}</p>         
+          <Link to="/albums" type="button" className="btn btn-info" onClick={()=>searchAlbums(id)}>albums</Link>        
         </div>
       </div>   
     </div>        
