@@ -19,7 +19,8 @@ export const App = () => {
         <Route path="albums" element={<Albums/>}/>         
         <Route path="*" element={ <NotFound/>}/>
       </Routes>
-      <Footer/>    
+      <Footer/> 
+         
     </ArtistsContextProvider>     
     
   );

@@ -12,12 +12,14 @@ export const ArtistsContextProvider = ({children})=>{
   const RESPONSE_TYPE = "token" 
 
   const [token, setToken] = useState('');
-  const [searchKey, setSearchKey] = useState("")
+  const [searchKey, setSearchKey] = useState('')
 
   const [artists, setArtists] = useState([])
   const [albums, setAlbums] = useState([]);
 
   const [page, setPage] = useState(1);
+  const [pages, setPages] = useState('');
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     const hash = window.location.hash
@@ -50,10 +52,10 @@ export const ArtistsContextProvider = ({children})=>{
               type: "artist"
           }
       })     
-      console.log(data.artists.items)
-      setArtists(data.artists.items)   
-    
-    } 
+      setPages(data.artists)
+      setArtists(data.artists.items)q    
+      numberPages(data.artists.total, data.artists.limit)  
+  } 
 
   const searchAlbums = async (id) => {   
 
@@ -71,10 +73,25 @@ export const ArtistsContextProvider = ({children})=>{
     setAlbums(data.items)      
   } 
 
-  const onChangePage = (next) =>{
-   
+  const numberPages = (total, limit)=>{
+
+    let totalPages = parseInt((total/limit))    
+    const remainder = (total%limit)
+    
+    if(remainder !== 0){
+      totalPages = totalPages + 1 
+    } 
+    setTotalPages(totalPages)
+  }
+
+
+  const onChangePage = (next) =>{    
+
+    //next = "https://api.spotify.com/v1/search?query=yadia&type=artist&locale=en-US%2Cen%3Bq%3D0.9%2Ces%3Bq%3D0.8&offset=20&limit=20"
+    //previous = null
+    
     if(!artists.previus && page + next <= 0) return;
-    if(!artists.next && page + next >= 10) return; 
+    if(!artists.next && page + next > totalPages) return; 
 
     setPage(page + next);
   }
@@ -91,10 +108,13 @@ export const ArtistsContextProvider = ({children})=>{
     albums,
     artists,
     page,
+    pages,
+    totalPages,
     logout, 
     searchArtists,
     searchAlbums,
-    onChangePage
+    onChangePage,
+    numberPages
   }
 
   return(
