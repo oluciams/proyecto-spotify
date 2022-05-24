@@ -14,12 +14,12 @@ export const App = () => {
 
     <ArtistsContextProvider>
       <Header/>
+      <Footer/> 
       <Routes> 
         <Route path="/" element={<Search/>}/>     
         <Route path="albums" element={<Albums/>}/>         
         <Route path="*" element={ <NotFound/>}/>
       </Routes>
-      <Footer/> 
          
     </ArtistsContextProvider>     
     

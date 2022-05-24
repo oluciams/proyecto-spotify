@@ -9,7 +9,7 @@ export const Footer = ()=> {
 
     <footer className="container mt-3 mb-3">
       <button type="button" className="btn btn-secondary btn-lg me-3" onClick={()=> onChangePage(-1)}>Prev</button>  | {page}     de   {totalPages} |
-      <button type="button" className="btn btn-secondary btn-lg ms-3" onClick={()=> onChangePage(1)}>Next</button>
+      <button type="button" className="btn btn-secondary btn-lg ms-3" onClick={()=> onChangePage(1)}>Next</button>   
     </footer> 
           
   )

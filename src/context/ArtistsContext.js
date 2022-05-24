@@ -21,6 +21,9 @@ export const ArtistsContextProvider = ({children})=>{
   const [pages, setPages] = useState('');
   const [totalPages, setTotalPages] = useState(1);
 
+  const [previous, setPrevious] = useState('');
+  const [next, setNext] = useState('');
+
   useEffect(() => {
     const hash = window.location.hash
     let token = window.localStorage.getItem("token")
@@ -51,11 +54,28 @@ export const ArtistsContextProvider = ({children})=>{
               q: searchKey,
               type: "artist"
           }
-      })     
+      })
+        
       setPages(data.artists)
-      setArtists(data.artists.items)q    
-      numberPages(data.artists.total, data.artists.limit)  
+      setArtists(data.artists.items)
+      setNext(data.artists.next)  
+      setPrevious(data.artists.previous)    
+      numberPages(data.artists.total, data.artists.limit)
   } 
+
+  const searchPagination = async (url) => {  
+    const {data} = await axios.get(url, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+        params: {            
+            type: "artist"
+        }
+    })
+    setArtists(data.artists.items)
+    setNext(data.artists.next)
+    setPrevious(data.artists.previous) 
+  }   
 
   const searchAlbums = async (id) => {   
 
@@ -71,7 +91,7 @@ export const ArtistsContextProvider = ({children})=>{
    
     console.log(data.items)
     setAlbums(data.items)      
-  } 
+  }   
 
   const numberPages = (total, limit)=>{
 
@@ -85,17 +105,18 @@ export const ArtistsContextProvider = ({children})=>{
   }
 
 
-  const onChangePage = (next) =>{    
+  const onChangePage = (num) =>{    
 
-    //next = "https://api.spotify.com/v1/search?query=yadia&type=artist&locale=en-US%2Cen%3Bq%3D0.9%2Ces%3Bq%3D0.8&offset=20&limit=20"
-    //previous = null
-    
-    if(!artists.previus && page + next <= 0) return;
-    if(!artists.next && page + next > totalPages) return; 
+    if(!artists.previous && page + num <= 0) return;
+    if(!artists.next && page + num > totalPages) return;       
 
-    setPage(page + next);
-  }
-
+    setPage(page + num);
+    if (num === -1){
+      searchPagination(previous)
+    } else {
+      searchPagination(next)
+    }
+  } 
 
   const value ={
     CLIENT_ID,
@@ -113,8 +134,7 @@ export const ArtistsContextProvider = ({children})=>{
     logout, 
     searchArtists,
     searchAlbums,
-    onChangePage,
-    numberPages
+    onChangePage  
   }
 
   return(
